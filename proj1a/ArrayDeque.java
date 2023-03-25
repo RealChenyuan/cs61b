@@ -1,7 +1,7 @@
 public class ArrayDeque<T> {
-    public T[] items;
-    public int size;
-    public int nextFirst, nextLast;
+    private T[] items;
+    private int size;
+    private int nextFirst, nextLast;
 
 
     public ArrayDeque() {
@@ -12,14 +12,18 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (nextFirst == -1) reSizeLarge();
+        if (nextFirst == -1) {
+            reSizeLarge();
+        }
         items[nextFirst] = item;
         nextFirst--;
         size++;
     }
 
     public void addLast(T item) {
-        if (nextLast == items.length) reSizeLarge();
+        if (nextLast == items.length) {
+            reSizeLarge();
+        }
         items[nextLast] = item;
         nextLast++;
         size++;
@@ -29,6 +33,8 @@ public class ArrayDeque<T> {
         T[] temp = (T[]) new Object[items.length * 10];
         System.arraycopy(items, 0, temp, items.length * 5, items.length);
         items = temp;
+        nextFirst += items.length * 5;
+        nextLast += items.length * 5;
     }
 
     public boolean isEmpty() {
@@ -47,7 +53,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (nextFirst == 4) return null;
+        if (size == 0) return null;
         T first = items[nextFirst+1];
         items[nextFirst+1] = null;
         nextFirst++;
@@ -57,7 +63,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (nextLast == 5) return null;
+        if (size == 0) return null;
         T last = items[nextLast-1];
         items[nextLast-1] = null;
         nextLast--;
@@ -68,13 +74,13 @@ public class ArrayDeque<T> {
 
     private void reSizeSmall() {
         T[] temp = (T[]) new Object[items.length/2];
-        System.arraycopy(items, nextFirst+1, temp, nextFirst-items.length/4, items.length/2);
+        System.arraycopy(items, nextFirst+1, temp, Math.floorDiv(nextFirst, 2), items.length/2);
         items = temp;
     }
 
     public T get(int index) {
-        if (index >= nextLast || index <= nextFirst) return null;
-        return items[index];
+        if (index >= size ) return null;
+        return items[index+nextFirst+1];
     }
 
 }

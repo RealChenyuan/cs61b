@@ -1,6 +1,6 @@
 public class LinkedListDeque<T> {
-    public Node sentinel;
-    public int size;
+    private Node sentinel;
+    private int size;
 
 
     public LinkedListDeque() {
@@ -69,12 +69,12 @@ public class LinkedListDeque<T> {
         return getRecursive(index, sentinel.next);
     }
 
-    public T getRecursive(int index, Node p) {
+    private T getRecursive(int index, Node p) {
         if (index == 0) return p.item;
         return getRecursive(index-1, p.next);
     }
 
-    public class Node {
+    private class Node {
         public Node next, prev;
         public T item;
 
