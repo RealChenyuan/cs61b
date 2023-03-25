@@ -32,9 +32,9 @@ public class ArrayDeque<T> {
     private void reSizeLarge() {
         T[] temp = (T[]) new Object[items.length * 10];
         System.arraycopy(items, 0, temp, items.length * 5, items.length);
-        items = temp;
         nextFirst += items.length * 5;
         nextLast += items.length * 5;
+        items = temp;
     }
 
     public boolean isEmpty() {
