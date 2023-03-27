@@ -34,18 +34,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T>{
      */
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        try {
-            if (fillCount == capacity) {
-                throw new RuntimeException("Ring buffer overflow!");
-            }
-            fillCount++;
-            rb[last] = x;
-            last++;
-            if (last == capacity) {
-                last = 0;
-            }
-        } catch (Exception e) {
-
+        if (fillCount == capacity) {
+            throw new RuntimeException("Ring buffer overflow!");
+        }
+        fillCount++;
+        rb[last] = x;
+        last++;
+        if (last == capacity) {
+            last = 0;
         }
     }
 
@@ -56,21 +52,17 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T>{
      */
     public T dequeue() {
         // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        try {
-            if (fillCount == 0) {
-                throw new RuntimeException("Ring buffer underflow");
-            }
-            fillCount--;
-            T f = rb[first];
-            rb[first] = null;
-            first++;
-            if (first == capacity) {
-                first = 0;
-            }
-            return f;
-        } catch (Exception e) {
-            return null;
+        if (fillCount == 0) {
+            throw new RuntimeException("Ring buffer underflow");
         }
+        fillCount--;
+        T f = rb[first];
+        rb[first] = null;
+        first++;
+        if (first == capacity) {
+            first = 0;
+        }
+        return f;
     }
 
     /**
@@ -78,14 +70,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T>{
      */
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
-        try {
-            if (fillCount == 0) {
-                throw new RuntimeException("Ring buffer underflow");
-            }
-            return rb[first];
-        } catch (Exception e) {
-            return null;
+        if (fillCount == 0) {
+            throw new RuntimeException("Ring buffer underflow");
         }
+        return rb[first];
     }
 
 
@@ -97,7 +85,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T>{
         return new ArrayIterator();
     }
 
-    private class ArrayIterator<T> implements Iterator<T> {
+    public class ArrayIterator<T> implements Iterator<T> {
 
         private int ptr;
 
