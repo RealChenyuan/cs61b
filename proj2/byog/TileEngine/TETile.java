@@ -1,6 +1,7 @@
 package byog.TileEngine;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ import byog.Core.RandomUtils;
  * to make your TETile class mutable, if you prefer.
  */
 
-public class TETile {
+public class TETile implements Serializable {
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -84,7 +85,7 @@ public class TETile {
     public void draw(double x, double y) {
         if (filepath != null) {
             try {
-                StdDraw.picture(x + 0.5, y + 0.5, filepath);
+                StdDraw.picture(x + 0.5, y + 0.5, filepath, 1, 1);
                 return;
             } catch (IllegalArgumentException e) {
                 // Exception happens because the file can't be found. In this case, fail silently
