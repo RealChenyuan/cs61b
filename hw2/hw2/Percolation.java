@@ -37,7 +37,7 @@ public class Percolation {
         this.N = N;
         openSize = 0;
         for (int i=0; i<N; i++) {
-            grid2.union(N*N, N*(N-1) + i);
+            grid2.union(N*(N-1) + i, N*N);
         }
     }
     public void open(int row, int col) {
@@ -122,10 +122,9 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(10);
-        p.open(9,4);
-        p.open(8,4);
-        p.open(2,9);
+        Percolation p = new Percolation(1);
+        p.open(0,0);
+        p.percolates();
     }
 
 }
