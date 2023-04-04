@@ -14,6 +14,7 @@ public class PercolationStats {
         // perform T independent experiments on an N-by-N grid
         if (N <= 0 || T <= 0) throw new IllegalArgumentException();
         random.setSeed(seed);
+        fractions = new double[T];
         for (int i=0; i<T; i++) {
             Percolation p = pf.make(N);
             while (!p.percolates()) {
@@ -21,7 +22,7 @@ public class PercolationStats {
                 int y = random.uniform(N);
                 p.open(x, y);
             }
-            fractions[i] = p.numberOfOpenSites()/(N*N);
+            fractions[i] = p.numberOfOpenSites()/(double)(N*N);
         }
         this.T = T;
     }
@@ -48,5 +49,14 @@ public class PercolationStats {
     }
     public double confidenceHigh() {
         return mean()+1.96*stddev()/Math.sqrt(T);
+    }
+
+    public static void main(String[] args) {
+        PercolationStats p = new PercolationStats(5, 5, new PercolationFactory());
+
+        System.out.println(p.mean());
+        System.out.println(p.stddev());
+        System.out.println(p.confidenceHigh());
+        System.out.println(p.confidenceLow());
     }
 }
