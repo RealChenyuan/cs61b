@@ -15,16 +15,23 @@ public class Percolation {
         if (N<0) {
             throw new IllegalArgumentException();
         }
-        grid = new WeightedQuickUnionUF(N*N+1);
-        type = new int[N*N+1];
-        for (int i=0; i<=N*N; i++) {
+//        grid = new WeightedQuickUnionUF(N*N+1);
+//        type = new int[N*N+1];
+//        for (int i=0; i<=N*N; i++) {
+//            type[i] = 0;
+//        }
+//        this.N = N;
+//        openSize = 0;
+//        for(int i=N*(N-1); i<N*N; i++) {
+//            grid.union(N*N, i);
+//        }
+        grid = new WeightedQuickUnionUF(N*N);
+        type = new int[N*N];
+        for (int i=0; i<N*N; i++) {
             type[i] = 0;
         }
         this.N = N;
         openSize = 0;
-        for(int i=N*(N-1); i<N*N; i++) {
-            grid.union(N*N, i);
-        }
     }
     public void open(int row, int col) {
         // open the site (row, col) if it is not open already
@@ -77,7 +84,6 @@ public class Percolation {
         if (k < 0 || k >= N*N) {
             throw new IndexOutOfBoundsException();
         }
-        //if (k >= N*(N-1) && grid.find(k) == N*(N-1)) return type[k] == 2;
         return type[grid.find(k)] == 2;
     }
     public int numberOfOpenSites() {
@@ -86,7 +92,12 @@ public class Percolation {
     }
     public boolean percolates() {
         // does the system percolate?
-        return type[grid.find(N*N)] == 2;
+        boolean percolates = false;
+        for (int i=0; i<N; i++) {
+            percolates = isFull(N - 1, i) || percolates;
+        }
+        return percolates;
+        // return type[grid.find(N*N)] == 2;
     }
 
     private int xyToX(int x, int y) {
