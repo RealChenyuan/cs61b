@@ -22,7 +22,6 @@ public class Solver {
         SearchNode init = new SearchNode(initial, 0, null);
         minPQ = new MinPQ<>();
         minPQ.insert(init);
-        moves = initial.estimatedDistanceToGoal();
     }
 
     /**
@@ -53,8 +52,8 @@ public class Solver {
                 minPQ.insert(node);
             }
         }
-        moves = -1;
-        while (p != null) {
+        moves = 0;
+        while (p.prevNode != null) {
             solutions.push(p.world);
             p = p.prevNode;
             moves++;
@@ -68,7 +67,7 @@ public class Solver {
         public SearchNode prevNode;
         private int distanceToGoal;
 
-        public SearchNode(WorldState world, int moves, SearchNode prevNode) {
+        private SearchNode(WorldState world, int moves, SearchNode prevNode) {
             this.world = world;
             this.moves = moves;
             this.prevNode = prevNode;

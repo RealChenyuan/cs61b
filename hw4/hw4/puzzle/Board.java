@@ -187,4 +187,10 @@ public class Board implements WorldState {
         return s.toString();
     }
 
+    @Override
+    public int hashCode() {
+        int result = initial != null ? initial.hashCode() : 0;
+        return result;
+    }
+
 }
